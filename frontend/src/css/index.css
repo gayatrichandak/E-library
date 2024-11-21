@@ -1,0 +1,27 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #e9f1fa; /* Light blue background for the whole app */
+  color: #333;
+}
+
+h1, h2 {
+  color: #00509e; /* Dark blue for headings */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container {
+  padding: 20px;
+  margin: auto;
+  text-align: center; /* Center text in container */
+}

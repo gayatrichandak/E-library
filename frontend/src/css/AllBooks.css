@@ -1,0 +1,132 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0f7fa; /* sky blue theme */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.search-div {
+    display: flex;
+    border-radius: 25px;
+    background-color: white;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 60%;
+}.search-div {
+    display: flex;
+    align-items: center;
+    border-radius: 25px;
+    background-color: white;
+    max-width: 60%;
+    overflow: hidden;
+}
+
+.search-input {
+    flex: 1;
+    padding: 5px 20px;
+    background-color: white;
+    color: black;
+    border: none;
+    font-size: 16px;
+    outline: none; /* Removes default focus outline */
+}
+
+.search-input::placeholder {
+    color: #999; /* Placeholder text color */
+}
+
+.search-input:focus::placeholder {
+    color: transparent; /* Makes the placeholder disappear on focus */
+}
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e0f7fa;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.create-button {
+    background-color: #0277bd;
+    color: white;
+    border: none;
+    margin-left: 35%;
+    max-width: 20%;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 25px;
+}
+
+.create-button:hover {
+    background-color: darkgrey;
+}
+
+
+.search-button {
+    padding: 10px 20px;
+    background-color: #0277bd;
+    color: white;
+    border: none;
+    width: 20%;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 25px; /* Rounds all corners */
+}
+
+.search-button:hover {
+    background-color: #01579b;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.cover {
+    width: 100%;
+    height: auto;
+}
+
+.details {
+    padding: 20px;
+}
+
+h1 {
+    color: #0277bd;
+}
+
+h2 {
+    color: #01579b;
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+p {
+    color: #424242;
+    margin: 5px 0;
+}
+
+
+
