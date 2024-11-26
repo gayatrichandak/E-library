@@ -44,5 +44,18 @@ const uploadFileOnCloudinary = async (localFilePath, fileType) => {
     }
 };
 
+const uploadPdfToCloudinary = async (filePath) => {
+    try {
+      const result = await cloudinary.uploader.upload(filePath, {
+        folder: 'pdfs',
+        resource_type: 'raw', // Optional: organize files in a folder
+      });
+      console.log('File URL:', result.secure_url);
+      return result.secure_url;
+    } catch (error) {
+      console.error('Error uploading to Cloudinary:', error);
+    }
+  };
 
-export {uploadFileOnCloudinary} ;
+
+export {uploadFileOnCloudinary,uploadPdfToCloudinary} ;

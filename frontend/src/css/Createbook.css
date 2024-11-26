@@ -1,85 +1,109 @@
+/* General Styling */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #e9f1fa; /* Consistent background color with index.css */
+  background-color: #f0f8ff;
+  font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
 }
 
+/* Container Styling */
 .container {
-  max-width: 800px; /* Wider container for better spacing */
-  margin: 30px auto;
-  padding: 20px;
-  border-radius: 8px;
+  max-width: 800px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
 }
 
-h1, h2 {
+/* Header */
+.container h1 {
+  background-color: #00509e;
+  color: white;
+  padding: 20px;
+  margin: 0;
   text-align: center;
-  color: #00509e; /* Match heading colors to index.css */
+  font-size: 28px;
 }
 
-.form-section {
-  background-color: #a2d2ff; /* Light blue for form section */
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 20px; /* Spacing between sections */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+/* Form Styling */
+form {
+  padding: 30px;
 }
 
-.book-list {
-  background-color: #ffe5d9; /* Light pink for book list section */
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-form div {
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
+form label {
+  font-size: 14px;
+  color: #00509e;
   font-weight: bold;
-  color: #333;
+  margin-bottom: 5px;
+  display: block;
 }
 
-input, textarea {
+form input,
+form textarea,
+form select {
   width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 20px;
   border: 1px solid #ccc;
-  background-color: #f0f8ff; /* Light background for input fields */
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f9f9f9;
 }
 
-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #0077b6; /* Bright blue for the button */
+form textarea {
+  resize: none;
+}
+
+/* Flex Row for Fields */
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row div {
+  flex: 1;
+}
+
+/* File Upload Fields */
+form input[type="file"] {
+  
+  padding: 4px;
+  background-color: white;
+  border: none;
+}
+
+/* Button Styling */
+form button {
+  background-color: #00509e;
   color: white;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-button:hover {
-  background-color: #023e8a; /* Darker blue on hover */
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  background-color: #f0f0f0; /* Light gray for book items */
-  margin-bottom: 15px;
+  border-radius: 8px;
   padding: 15px;
-  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-img {
-  margin-top: 10px;
-  max-width: 100px; /* Adjust size as needed */
-  height: auto; /* Maintain aspect ratio */
+form button:hover {
+  background-color: #003d80;
+}
+
+/* Success Message */
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #c3e6cb;
+}
+
+/* Footer Line */
+.footer {
+  text-align: center;
+  padding: 15px;
+  background-color: #00509e;
+  color: white;
+  font-size: 14px;
 }

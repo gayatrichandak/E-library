@@ -1,74 +1,71 @@
 import { Book } from "../models/book.model.js";
 import {uploadFileOnCloudinary} from "../utils/cloudinary.utils.js";
+import { uploadFile, getSharedUrl } from "../utils/dropbox.util.js";
 
 const createBook = async (req, res) => {
+    
     try {
         const { name, author, description, price } = req.body;
 
-        let coverPath = '';
-        let filePath = '';
         // Check if required fields are provided
-        //if(!name || !author ||!price)
-        if (!(name && author && price)) 
-        {
+        if (!(name && author && price)) {
             return res.status(400).json({ error: "Insufficient Data." });
         }
 
-        
+        // Extract file paths from the request
+        let coverPath = '';
+        let filePath = '';
 
-
-        // if(coverPath){
-        //     const cover = await uploadOnCloudinary(coverPath);
-        //     // console.log(cover);
-        //     if(!cover){
-        //         return res.status(500).json({message: "Error uploading cover image"});
-        //     }
-            
-        //     book.cover=cover.url;
-        //     await book.save({validateBeforeSave:false});
-        //     console.log(book);
-            
-        // }
-
-        if(req.files && Array.isArray(req.files.cover) && req.files.cover.length > 0){
+        if (req.files && Array.isArray(req.files.cover) && req.files.cover.length > 0) {
             coverPath = req.files.cover[0].path;
-        }
-        if(!coverPath){
-            res.status(401,"Cover is required");
+        } else {
+            return res.status(400).json({ error: "Cover is required." });
         }
 
-        if(req.files && Array.isArray(req.files.bookFile) && req.files.bookFile.length > 0){
+        if (req.files && Array.isArray(req.files.bookFile) && req.files.bookFile.length > 0) {
             filePath = req.files.bookFile[0].path;
-        }
-        if(!filePath){
-            res.status(401,"bookFile is required");
+        } else {
+            return res.status(400).json({ error: "Book file is required." });
         }
 
+        // Retrieve the access token from the user's session or cookies
+        const accessToken = req.cookies.dropboxAccessToken;
+        if (!accessToken) {
+            return res.status(401).json({ error: "Authentication required. Please login to Dropbox." });
+        }
+
+        // Upload cover and book file to Dropbox
+        const dropboxFilePath = `/books/${Date.now()}-${req.files.bookFile[0].originalname}`;
 
         const uploadedCover = await uploadFileOnCloudinary(coverPath);
-        const uploadedFile = await uploadFileOnCloudinary(filePath,"pdf");
+        const uploadedFile = await uploadFile(accessToken, filePath, dropboxFilePath);
 
-        console.log("File ----- ",uploadedFile );
-        console.log("Cover----- ",uploadedCover);
-        if(!(uploadedCover && uploadedFile)){
-            res.status(500).json({error:"Error while uploading the file"});
+        if (!(uploadedCover && uploadedFile)) {
+            return res.status(500).json({ error: "Error uploading files to Dropbox." });
         }
 
-        // Create a new book entry
-        const book = await Book.create
-        ({
+        // Generate shared URLs for the uploaded files
+        // const sharedCoverUrl = await getSharedUrl(accessToken, uploadedCover.path_display);
+        const sharedFileUrl = await getSharedUrl(accessToken, uploadedFile.path_display);
+
+        if (!(sharedCoverUrl && sharedFileUrl)) {
+            return res.status(500).json({ error: "Error generating shared URLs for files." });
+        }
+
+        console.log(sharedFileUrl,"\n",uploadedCover);
+        // Create a new book entry in the database
+        const book = await Book.create({
             name,
             author,
             description,
             price,
-            cover:uploadedCover,
-            file:uploadedFile
+            cover: uploadedCover,
+            file: sharedFileUrl
         });
-        if(!book){
-            res.status(500).json({error:"Error while creating the book"});
-        }
 
-        
+        if (!book) {
+            return res.status(500).json({ error: "Error while creating the book." });
+        }
 
         // Respond with success
         return res.status(201).json({
@@ -81,6 +78,91 @@ const createBook = async (req, res) => {
         return res.status(500).json({ error: "Internal server error." });
     }
 };
+
+
+
+
+
+// const createBook = async (req, res) => {
+//     try {
+//         const { name, author, description, price } = req.body;
+
+//         let coverPath = '';
+//         let filePath = '';
+//         // Check if required fields are provided
+//         //if(!name || !author ||!price)
+//         if (!(name && author && price)) 
+//         {
+//             return res.status(400).json({ error: "Insufficient Data." });
+//         }
+
+        
+
+
+//         // if(coverPath){
+//         //     const cover = await uploadOnCloudinary(coverPath);
+//         //     // console.log(cover);
+//         //     if(!cover){
+//         //         return res.status(500).json({message: "Error uploading cover image"});
+//         //     }
+            
+//         //     book.cover=cover.url;
+//         //     await book.save({validateBeforeSave:false});
+//         //     console.log(book);
+            
+//         // }
+
+//         if(req.files && Array.isArray(req.files.cover) && req.files.cover.length > 0){
+//             coverPath = req.files.cover[0].path;
+//         }
+//         if(!coverPath){
+//             res.status(401,"Cover is required");
+//         }
+
+//         if(req.files && Array.isArray(req.files.bookFile) && req.files.bookFile.length > 0){
+//             filePath = req.files.bookFile[0].path;
+//         }
+//         if(!filePath){
+//             res.status(401,"bookFile is required");
+//         }
+
+
+//         const uploadedCover = await uploadFileOnCloudinary(coverPath);
+//         const uploadedFile = await uploadPdfToCloudinary(filePath);
+//         console.log(uploadedFile)
+
+//         console.log("Cover----- ",uploadedCover);
+//         if(!(uploadedCover )){
+//             res.status(500).json({error:"Error while uploading the file"});
+//         }
+
+//         // Create a new book entry
+//         const book = await Book.create
+//         ({
+//             name,
+//             author,
+//             description,
+//             price,
+//             cover:uploadedCover,
+//             file:uploadedFile
+//         });
+//         if(!book){
+//             res.status(500).json({error:"Error while creating the book"});
+//         }
+
+        
+
+//         // Respond with success
+//         return res.status(201).json({
+//             message: "Book created successfully.",
+//             data: book,
+//         });
+
+//     } catch (error) {
+//         console.error(error);
+//         return res.status(500).json({ error: "Internal server error." });
+//     }
+// };
 
 //page=1 and limit=50 is default if we not given that time we used
 //aggregate function is used it convert the group of data into the single result

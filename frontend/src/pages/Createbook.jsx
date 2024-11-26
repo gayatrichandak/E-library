@@ -13,8 +13,8 @@ const Createbook = () => {
     price: '',
     cover: null,
     bookFile: null,
-    bookType: '',   // New state for book type
-    subType: '',    // New state for sub-type
+    bookType: '', // New state for book type
+    subType: '', // New state for sub-type
   });
 
   const navigate = useNavigate();
@@ -76,8 +76,8 @@ const Createbook = () => {
       formData.append('price', bookDetails.price);
       formData.append('cover', bookDetails.cover);
       formData.append('bookFile', bookDetails.bookFile);
-      formData.append('bookType', bookDetails.bookType);  // Append book type
-      formData.append('subType', bookDetails.subType);    // Append sub-type
+      formData.append('bookType', bookDetails.bookType); // Append book type
+      formData.append('subType', bookDetails.subType); // Append sub-type
 
       try {
         // Make the API request
@@ -118,56 +118,84 @@ const Createbook = () => {
 
   return (
     <div className="container">
-      <h1>Book Management System</h1>
+      <h1>E-Library</h1>
 
-      <div className="form-section">
-        <h2>Add a Book</h2>
+      {/* START: Search Functionality */}
+      {/*
+      // State for search input
+      const [searchInput, setSearchInput] = useState('');
 
-        {/* Display success message if exists */}
+      // Handle search functionality
+      const handleSearch = () => {
+        console.log('Searching for:', searchInput); // Replace with actual search logic
+        setSearchInput(''); // Clear search input
+      };
+      */}
+      {/*
+      // Add search functionality block in HTML:
+      <div className="search-section">
+        <input
+          type="text"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          placeholder="Search for books"
+        />
+        <button onClick={handleSearch}>Search</button>
+      </div>
+      */}
+      {/* END: Search Functionality */}
+
+      <form onSubmit={handleSubmit}>
+        {/* Success Message */}
         {successMessage && <p className="success-message">{successMessage}</p>}
 
-        <form onSubmit={handleSubmit}>
+        <label htmlFor="name">Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={bookDetails.name}
+          onChange={handleChange}
+          placeholder="Enter the book name"
+        />
+
+        <label htmlFor="author">Author:</label>
+        <input
+          type="text"
+          id="author"
+          name="author"
+          value={bookDetails.author}
+          onChange={handleChange}
+          placeholder="Enter the author's name"
+        />
+
+        <label htmlFor="description">Description:</label>
+        <textarea
+          id="description"
+          name="description"
+          rows="4"
+          value={bookDetails.description}
+          onChange={handleChange}
+          placeholder="Write a short description"
+        />
+
+        <div className="form-row">
           <div>
-            <label>Name:</label>
-            <input
-              type="text"
-              name="name"
-              value={bookDetails.name}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label>Author:</label>
-            <input
-              type="text"
-              name="author"
-              value={bookDetails.author}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label>Description:</label>
-            <textarea
-              name="description"
-              rows="4"
-              value={bookDetails.description}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label>Price:</label>
+            <label htmlFor="price">Price:</label>
             <input
               type="number"
+              id="price"
               name="price"
               value={bookDetails.price}
               onChange={handleChange}
+              placeholder="Enter price"
             />
           </div>
 
-          {/* Book Type selection */}
           <div>
-            <label>Book Type:</label>
+            <label htmlFor="bookType">Book Type:</label>
             <select
+              id="bookType"
               name="bookType"
               value={bookDetails.bookType}
               onChange={handleBookTypeChange}
@@ -182,55 +210,65 @@ const Createbook = () => {
               <option value="biography">Biography</option>
             </select>
           </div>
+        </div>
 
-          {/* Conditionally render sub-types based on book type */}
-          {bookDetails.bookType === 'fiction' || bookDetails.bookType === 'biography' ? (
-            <div>
-              <label>Sub-Type:</label>
-              <select
-                name="subType"
-                value={bookDetails.subType}
-                onChange={handleSubTypeChange}
-              >
-                <option value="">Select Sub-Type</option>
-
-                {bookDetails.bookType === 'fiction' && (
-                  <>
-                    <option value="romantic">Romantic</option>
-                    <option value="adventure">Adventure</option>
-                  </>
-                )}
-                {bookDetails.bookType === 'biography' && (
-                  <>
-                    <option value="celebrity">Celebrity</option>
-                    <option value="popularPerson">Popular Person</option>
-                  </>
-                )}
-              </select>
-            </div>
-          ) : null}
-
-          {/* Cover Image and PDF File Upload */}
+        {/* START: Sub-Type Dropdown */}
+        {/*
+        {bookDetails.bookType && (
           <div>
-            <label>Cover Image:</label>
+            <label htmlFor="subType">Sub-Type:</label>
+            <select
+              id="subType"
+              name="subType"
+              value={bookDetails.subType}
+              onChange={handleSubTypeChange}
+            >
+              <option value="">Select Sub-Type</option>
+              {bookDetails.bookType === 'fiction' && (
+                <>
+                  <option value="romantic">Romantic</option>
+                  <option value="adventure">Adventure</option>
+                </>
+              )}
+              {bookDetails.bookType === 'biography' && (
+                <>
+                  <option value="celebrity">Celebrity</option>
+                  <option value="popularPerson">Popular Person</option>
+                </>
+              )}
+            </select>
+          </div>
+        )}
+        */}
+        {/* END: Sub-Type Dropdown */}
+
+        <div className="form-row">
+          <div className="form-column">
+            <label htmlFor="coverImage">Cover Image:</label>
             <input
               type="file"
+              id="coverImage"
               accept="image/*"
               onChange={handleCoverChange}
             />
           </div>
-          <div>
-            <label>Book PDF File:</label>
+          <div className="form-column">
+            <label htmlFor="bookFile">Book PDF File:</label>
             <input
               type="file"
-              accept="application/pdf/*"
+              id="bookFile"
+              accept="application/pdf"
               onChange={handleFileChange}
             />
           </div>
+        </div>
 
-          <button type="submit">Add Book</button>
-        </form>
-      </div>
+        <button type="submit">Add Book</button>
+      </form>
+
+      {/* <div className="footer">
+        © 2024 Book Management System | Designed with ❤️
+      </div> */}
     </div>
   );
 };
