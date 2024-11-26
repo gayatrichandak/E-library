@@ -29,7 +29,7 @@ const createBook = async (req, res) => {
         }
 
         // Retrieve the access token from the user's session or cookies
-        const accessToken = req.cookies.dropboxAccessToken;
+        const accessToken ="sl.CBYQKU7StlUPhV0eSxClob_lhJnfglngWtepMikRHkF7jXmXLLyY21sM4Nu1fWUmjPewsrzPF2lVS0DZxP0N_RqfwnSsbGCIpQANoP4uP3BCk33SijZmoOfBk_6EqzMZNab9JXqR-k2epvpQiQ";
         if (!accessToken) {
             return res.status(401).json({ error: "Authentication required. Please login to Dropbox." });
         }
@@ -43,12 +43,13 @@ const createBook = async (req, res) => {
         if (!(uploadedCover && uploadedFile)) {
             return res.status(500).json({ error: "Error uploading files to Dropbox." });
         }
+        console.log(uploadedFile);
 
         // Generate shared URLs for the uploaded files
         // const sharedCoverUrl = await getSharedUrl(accessToken, uploadedCover.path_display);
         const sharedFileUrl = await getSharedUrl(accessToken, uploadedFile.path_display);
 
-        if (!(sharedCoverUrl && sharedFileUrl)) {
+        if (!(uploadedCover && sharedFileUrl)) {
             return res.status(500).json({ error: "Error generating shared URLs for files." });
         }
 
