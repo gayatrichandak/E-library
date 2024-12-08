@@ -118,7 +118,7 @@ const Createbook = () => {
 
   return (
     <div className="container">
-      <h1>E-Library</h1>
+      <h1 onClick={()=>navigate('/')}>E-Library</h1>
 
       {/* START: Search Functionality */}
       {/*
@@ -244,7 +244,7 @@ const Createbook = () => {
 
         <div className="form-row">
           <div className="form-column">
-            <label htmlFor="coverImage">Cover Image:</label>
+            <label htmlFor="coverImage" >Cover Image:</label>
             <input
               type="file"
               id="coverImage"
@@ -252,7 +252,7 @@ const Createbook = () => {
               onChange={handleCoverChange}
             />
           </div>
-          <div className="form-column">
+          {/* <div className="form-column">
             <label htmlFor="bookFile">Book PDF File:</label>
             <input
               type="file"
@@ -260,7 +260,7 @@ const Createbook = () => {
               accept="application/pdf"
               onChange={handleFileChange}
             />
-          </div>
+          </div> */}
         </div>
 
         <button type="submit">Add Book</button>

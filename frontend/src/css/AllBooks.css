@@ -98,16 +98,25 @@ body {
 }
 
 .card {
+    display: flex;
+    flex-direction: column;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
-
-.cover {
+.card .cover{
+   
     width: 100%;
-    height: auto;
+    height: 70%;
+
 }
+
+.card details {
+    align-self: baseline;
+}
+
+
 
 .details {
     padding: 20px;

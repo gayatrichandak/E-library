@@ -72,4 +72,5 @@ bookRoute.route("/getbookbyname").get(getBookByName);
 bookRoute.route("/deletebookbyname").delete(deleteBookByName);
 
 bookRoute.route("/updatebookbyname").put(updateBookByName);
+
 export default bookRoute;

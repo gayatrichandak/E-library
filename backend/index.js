@@ -5,6 +5,7 @@ dotenv.config({
         path: './.env',
 });
 
+// Higher level functions are the functions that takes function or Object as an argument then return function , promise or object .
 
 connectDB().then(
     ()=>{
@@ -17,7 +18,8 @@ connectDB().then(
     }
 ).catch((error=>{
     console.error("MongoDB connection failed : ",error);
-}))
+}));
+
 app.get("/",(req, res) => {
     const message = 'Hello Geek. This Message is From Server';
     res.json({ message });

@@ -1,6 +1,7 @@
 import express from 'express';
 import helloRouter from './src/routes/hello.route.js';
 import bookRoute from './src/routes/book.route.js';
+import { authRouter } from './src/routes/auth.route.js';
 import axios from 'axios';
 import { Dropbox } from 'dropbox';
 import bodyParser from "body-parser";
@@ -10,16 +11,17 @@ import cookieParser from 'cookie-parser';
 // Add this after initializing your app
 //intialisation of app
 const app = express();
-//configuration- what type of data app should recieve,from where to recieve .
+
+//use is middleware
 app.use(cors({
     origin: "*",
     credentials:true
 }));
 
-app.use(cookieParser());
-app.use(express.json({limit:'16kb'}));
-app.use(express.urlencoded({extended:true,limit:"16kb"}));
-app.use(express.static("public"));
+app.use(cookieParser()); //session mdhe data save krnya sathi.
+app.use(express.json({limit:'16kb'})); // accepts json data
+app.use(express.urlencoded({extended:true,limit:"16kb"})); // accepts from data
+app.use(express.static("public")); // files handle krnya sathi 
 app.use('/public', express.static('public')); // Serve static files
 
 
@@ -32,37 +34,7 @@ app.use('/public', express.static('public')); // Serve static files
 //   const authUrl = `https://www.dropbox.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 //   res.redirect(authUrl);
 // });
-app.get('/callback', async (req, res) => {
-    const authCode = req.query.code;
-  
-    if (!authCode) {
-      return res.status(400).send('Authorization code is missing');
-    }
-  
-    try {
-      const response = await axios.post('https://api.dropbox.com/oauth2/token', null, {
-        params: {
-          code: authCode,
-          grant_type: 'authorization_code',
-          client_id: CLIENT_ID,
-          client_secret: CLIENT_SECRET,
-          redirect_uri: REDIRECT_URI,
-        },
-      });
-  
-      const accessToken = response.data.access_token;
-      res.cookie('dropboxAccessToken', accessToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: 'Lax',
-      });
-  
-      res.send('Access token stored in cookies.');
-    } catch (error) {
-      console.error(error.response.data);
-      res.status(500).send('Failed to exchange authorization code for access token.');
-    }
-  });
+
   
 // app.get('/callback', async (req, res) => {
 //     const authCode = req.query.code; // The authorization code
@@ -99,6 +71,7 @@ app.get('/callback', async (req, res) => {
 
 //specify which routes we are using.
 app.use('/hello',helloRouter);
+app.use('/callback',authRouter);
 app.use('/book',bookRoute);
 
 export default app;
