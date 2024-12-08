@@ -29,7 +29,7 @@ const createBook = async (req, res) => {
         }
 
         // Retrieve the access token from the user's session or cookies
-        const accessToken ="sl.CBYQKU7StlUPhV0eSxClob_lhJnfglngWtepMikRHkF7jXmXLLyY21sM4Nu1fWUmjPewsrzPF2lVS0DZxP0N_RqfwnSsbGCIpQANoP4uP3BCk33SijZmoOfBk_6EqzMZNab9JXqR-k2epvpQiQ";
+        // const accessToken ="sl.CBYQKU7StlUPhV0eSxClob_lhJnfglngWtepMikRHkF7jXmXLLyY21sM4Nu1fWUmjPewsrzPF2lVS0DZxP0N_RqfwnSsbGCIpQANoP4uP3BCk33SijZmoOfBk_6EqzMZNab9JXqR-k2epvpQiQ";
         if (!accessToken) {
             return res.status(401).json({ error: "Authentication required. Please login to Dropbox." });
         }
